@@ -140,6 +140,31 @@
             color: rgba(255, 255, 255, 0.8);
             font-style: italic;
         }
+        .result-item {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .result-item.prominent {
+            border: 2px solid #fff;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .interpretation {
+            display: none;
+            text-align: left;
+            margin-top: 10px;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -315,14 +340,14 @@
                 const optionElement = document.createElement('button');
                 optionElement.className = 'option';
                 optionElement.textContent = optionText;
-                optionElement.addEventListener('click', () => selectOption(question.id, index));
+                optionElement.addEventListener('click', (event) => selectOption(question.id, index, event));
                 if (userResponses[question.id] === index) optionElement.classList.add('selected');
                 optionsContainer.appendChild(optionElement);
             });
             backButton.disabled = currentQuestionIndex === 0;
         }
 
-        function selectOption(questionId, optionValue) {
+        function selectOption(questionId, optionValue, event) {
             userResponses[questionId] = optionValue;
 
             const selectedButton = event.target;
