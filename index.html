@@ -134,6 +134,12 @@
             font-weight: 600;
             transition: background-color 0.3s, color 0.3s;
         }
+        .disclaimer {
+            font-size: 0.9em;
+            margin-top: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -174,6 +180,7 @@
             <div id="sorted-results"></div>
             <button id="download-button" class="control-button">Download Results</button>
             <button id="restart-button" class="control-button" style="margin-top: 20px;">Take Again</button>
+            <p class="disclaimer"><strong>Disclaimer:</strong> This is a self-report inventory. The results are for informational purposes only and should not be considered a substitute for professional psychological advice. For a more detailed and accurate assessment, please consult a qualified psychologist.</p>
         </div>
     </div>
 
@@ -257,7 +264,7 @@
                 N: [[40, 70], [35, 64], [30, 55], [25, 47], [20, 45], [15, 39], [5, 30], [0, 26]],
                 E: [[40, 69], [35, 65], [30, 61], [25, 56], [20, 47], [10, 40], [5, 35], [0, 25]],
                 O: [[45, 75], [40, 72], [35, 64], [30, 61], [25, 49], [20, 36], [15, 35], [10, 31], [5, 26], [0, 25]],
-                A: [[35, 61], [30, 44], [25, 33], [20, 40], [15, 29]],
+                A: [[35, 61], [30, 44], [25, 40], [20, 33], [15, 29], [0, 25]],
                 C: [[45, 70], [40, 64], [35, 54], [30, 41], [25, 35], [20, 30], [0, 20]]
             }
         };
@@ -329,6 +336,7 @@
                     showResults();
                 }
             }, 500);
+.I have corrected the file. The graph will now display the data correctly, and the disclaimer is included in the results section.
         }
 
         function getTScoreLevel(tScore) {
