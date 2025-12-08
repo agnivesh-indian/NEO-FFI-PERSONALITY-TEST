@@ -404,7 +404,19 @@
             sortedResultsContainer.innerHTML = '';
 
             const chartData = {
-                datasets: []
+                labels: [],
+                datasets: [{
+                    label: 'T-Score',
+                    data: [],
+                    borderColor: '#fff',
+                    backgroundColor: '#fff',
+                    pointBackgroundColor: [],
+                    pointBorderColor: [],
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    showLine: true,
+                    fill: false,
+                }]
             };
 
             const colors = {
@@ -414,22 +426,16 @@
                 A: 'rgba(75, 192, 192, 1)',
                 C: 'rgba(153, 102, 255, 1)'
             };
-
-            for(const domain of ['N', 'E', 'O', 'A', 'C']) {
+            
+            ['N', 'E', 'O', 'A', 'C'].forEach(domain => {
                 const tScore = tScores[domain];
                 const level = getTScoreLevel(tScore);
 
-                chartData.datasets.push({
-                    label: INTERPRETATIONS[domain].name,
-                    data: [{
-                        x: Math.random() * 10, // Randomize x to avoid overlap
-                        y: tScore,
-                    }],
-                    backgroundColor: colors[domain],
-                    borderColor: colors[domain],
-                    pointRadius: 25,
-                    pointHoverRadius: 30
-                });
+                chartData.labels.push(INTERPRETATIONS[domain].name);
+                chartData.datasets[0].data.push(tScore);
+                chartData.datasets[0].pointBackgroundColor.push(colors[domain]);
+                chartData.datasets[0].pointBorderColor.push(colors[domain]);
+
 
                 // Create interpretation text
                 const resultItem = document.createElement('div');
@@ -442,70 +448,67 @@
                     <div class="interpretation"><p>${INTERPRETATIONS[domain].description}</p></div>
                 `;
                 sortedResultsContainer.appendChild(resultItem);
-            }
+            });
 
             const ctx = document.getElementById('results-chart').getContext('2d');
             if(window.myChart) {
                 window.myChart.destroy();
             }
             window.myChart = new Chart(ctx, {
-                type: 'scatter',
+                type: 'line',
                 data: chartData,
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
                         x: {
-                            display: false,
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: 'white',
+                                font: {
+                                    size: 14
+                                }
+                            }
                         },
                         y: {
-                            display: false,
+                            display: true, // Show Y-axis
                             beginAtZero: true,
-                            max: 80
+                            max: 80,
+                             grid: {
+                                color: "rgba(255, 255, 255, 0.2)", // Make horizontal grid lines visible
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                color: 'white',
+                                font: {
+                                    size: 14
+                                }
+                            }
                         }
                     },
                     plugins: {
                         legend: {
-                            display: false
+                           display: false
                         },
                         tooltip: {
-                            enabled: false
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            font: {
-                                weight: 'bold',
-                                size: 16,
-                            },
-                            formatter: function(value, context) {
-                                return context.dataset.label;
+                            enabled: true,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
                             }
                         }
                     }
-                },
-                plugins: [{
-                    id: 'datalabels',
-                    afterDatasetsDraw: function(chart, args, options) {
-                        const ctx = chart.ctx;
-                        chart.data.datasets.forEach(function(dataset, i) {
-                            const meta = chart.getDatasetMeta(i);
-                            if (!meta.hidden) {
-                                meta.data.forEach(function(element, index) {
-                                    const fontSize = 16;
-                                    const fontStyle = 'bold';
-                                    const fontFamily = 'Poppins';
-                                    ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
-                                    const dataString = dataset.label;
-                                    ctx.fillStyle = 'white';
-                                    ctx.textAlign = 'center';
-                                    ctx.textBaseline = 'middle';
-                                    const position = element.tooltipPosition();
-                                    ctx.fillText(dataString, position.x, position.y);
-                                });
-                            }
-                        });
-                    }
-                }]
+                }
             });
         }
         
