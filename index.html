@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEO PFI Personality Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -34,21 +35,63 @@
             font-weight: 600;
         }
 
-        #instructions, #gender-selection {
+        #progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
             margin-bottom: 20px;
+            overflow: hidden;
         }
 
-        #instructions p {
-            line-height: 1.6;
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
         }
-
-        #question-area {
+        
+        #dominant-trait-summary {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
             margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
-        #question-text {
-            font-size: 1.3em;
+        #results-graph-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 250px;
             margin-bottom: 30px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .graph-bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 18%;
+        }
+
+        .graph-bar {
+            width: 50px;
+            background: linear-gradient(to top, #8e2de2, #4a00e0);
+            border-radius: 5px;
+            transition: height 1s ease-in-out;
+            position: relative;
+        }
+        
+        .graph-bar-label {
+            margin-top: 10px;
+            font-weight: 600;
         }
 
         .option {
@@ -65,16 +108,18 @@
             text-align: center;
             transition: background-color 0.3s, transform 0.2s;
         }
-
-        .option:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.02);
-        }
-
+        
         .option.selected {
             background-color: #fff;
             color: #2575fc;
             font-weight: 600;
+            animation: pulse 0.5s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         #navigation-buttons button, .control-button {
@@ -88,80 +133,6 @@
             color: #2575fc;
             font-weight: 600;
             transition: background-color 0.3s, color 0.3s;
-        }
-
-        #navigation-buttons button:hover, .control-button:hover {
-            background-color: #f0f0f0;
-        }
-
-        #back-button:disabled {
-            background-color: rgba(255, 255, 255, 0.3);
-            color: rgba(255, 255, 255, 0.7);
-            cursor: not-allowed;
-        }
-
-        #results-container {
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        #dominant-trait-summary {
-            font-size: 1.2em;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        #sorted-results {
-            width: 100%;
-        }
-
-        .result-item {
-            margin-bottom: 15px;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .result-item.prominent {
-            background-color: rgba(255, 255, 255, 0.25);
-            border-left: 5px solid #fff;
-        }
-        
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.2em;
-            font-weight: 600;
-        }
-
-        .graph-bar-container {
-            width: 100%;
-            height: 25px;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-
-        .graph-bar {
-            height: 100%;
-            background: linear-gradient(to right, #8e2de2, #4a00e0);
-            text-align: right;
-            color: white;
-            line-height: 25px;
-            padding-right: 10px;
-            border-radius: 5px;
-            transition: width 1s ease-in-out;
-            width: 0;
-            box-sizing: border-box;
-        }
-        
-        .interpretation {
-            margin-top: 10px;
-            font-size: 0.95em;
-            display: none; /* Initially hidden */
         }
     </style>
 </head>
@@ -183,6 +154,9 @@
         </div>
 
         <div id="test-container" style="display: none;">
+            <div id="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
             <div id="question-area">
                 <p id="question-number"></p>
                 <p id="question-text"></p>
@@ -196,7 +170,9 @@
         <div id="results-container" style="display: none;">
             <h2>Your Personality Profile</h2>
             <div id="dominant-trait-summary"></div>
+            <div id="results-graph-container"></div>
             <div id="sorted-results"></div>
+            <button id="download-button" class="control-button">Download Results</button>
             <button id="restart-button" class="control-button" style="margin-top: 20px;">Take Again</button>
         </div>
     </div>
@@ -303,13 +279,27 @@
         const restartButton = document.getElementById('restart-button');
         const sortedResultsContainer = document.getElementById('sorted-results');
         const dominantTraitSummary = document.getElementById('dominant-trait-summary');
-        
+        const progressBar = document.getElementById('progress-bar');
+        const downloadButton = document.getElementById('download-button');
+        const resultsGraphContainer = document.getElementById('results-graph-container');
+
         startButton.addEventListener('click', () => { instructionsContainer.style.display = 'none'; genderSelectionContainer.style.display = 'block'; });
         document.querySelectorAll('.gender-btn').forEach(button => { button.addEventListener('click', (e) => { userGender = e.target.getAttribute('data-gender'); genderSelectionContainer.style.display = 'none'; testContainer.style.display = 'block'; renderQuestion(); }); });
         backButton.addEventListener('click', () => { if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); } });
         restartButton.addEventListener('click', () => { currentQuestionIndex = 0; userResponses = {}; resultsContainer.style.display = 'none'; instructionsContainer.style.display = 'block'; });
+        downloadButton.addEventListener('click', () => {
+            html2canvas(resultsContainer).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'personality-test-results.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
 
         function renderQuestion() {
+            const progress = (currentQuestionIndex / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
             const question = questions[currentQuestionIndex];
             questionNumberElement.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
             questionTextElement.textContent = question.text;
@@ -327,6 +317,10 @@
 
         function selectOption(questionId, optionValue) {
             userResponses[questionId] = optionValue;
+
+            const selectedButton = event.target;
+            selectedButton.classList.add('selected');
+
             setTimeout(() => {
                 if (currentQuestionIndex < questions.length - 1) {
                     currentQuestionIndex++;
@@ -334,7 +328,7 @@
                 } else {
                     showResults();
                 }
-            }, 250);
+            }, 500);
         }
 
         function getTScoreLevel(tScore) {
@@ -346,12 +340,13 @@
         }
         
         function getTScore(rawScore, scoreTable) {
+            if (!scoreTable) return 0;
             for (const [threshold, tScore] of scoreTable) {
                 if (rawScore >= threshold) {
                     return tScore;
                 }
             }
-            return 0; // Should not be reached with the current tables
+            return 0; 
         }
 
         function calculateScores() {
@@ -375,38 +370,56 @@
         function showResults() {
             testContainer.style.display = 'none';
             resultsContainer.style.display = 'block';
-            const { RAW: rawScores, T: tScores } = calculateScores();
+            progressBar.style.width = '100%';
+
+            const { T: tScores } = calculateScores();
             const sortedDomains = Object.keys(tScores).sort((a, b) => tScores[b] - tScores[a]);
             
             const dominantDomain = sortedDomains[0];
-            dominantTraitSummary.innerHTML = `Your most dominant trait appears to be <strong>${INTERPRETATIONS[dominantDomain].name}</strong>.`;
+            dominantTraitSummary.innerHTML = `Your most dominant trait is <strong>${INTERPRETATIONS[dominantDomain].name}</strong>.`;
 
+            resultsGraphContainer.innerHTML = '';
             sortedResultsContainer.innerHTML = '';
-            sortedDomains.forEach((domain, index) => {
+
+            const maxTScore = 80;
+
+            for(const domain of ['N', 'E', 'O', 'A', 'C']) {
                 const tScore = tScores[domain];
-                const rawScore = rawScores[domain];
                 const level = getTScoreLevel(tScore);
+
+                // Create graph bar
+                const barWrapper = document.createElement('div');
+                barWrapper.className = 'graph-bar-wrapper';
+                
+                const bar = document.createElement('div');
+                bar.className = 'graph-bar';
+                const barHeight = (tScore / maxTScore) * 100;
+                bar.style.height = `${barHeight}%`;
+
+                const barLabel = document.createElement('div');
+                barLabel.className = 'graph-bar-label';
+                barLabel.textContent = domain;
+
+                barWrapper.appendChild(bar);
+                barWrapper.appendChild(barLabel);
+                resultsGraphContainer.appendChild(barWrapper);
+
+                // Create interpretation text
                 const resultItem = document.createElement('div');
-                resultItem.className = 'result-item' + (index === 0 ? ' prominent' : '');
-                const maxTScore = 80; 
-                const barWidth = (tScore / maxTScore) * 100;
+                resultItem.className = 'result-item' + (domain === dominantDomain ? ' prominent' : '');
                 resultItem.innerHTML = `
                     <div class="result-header">
                         <span>${INTERPRETATIONS[domain].name}</span>
-                        <span>${level} (T: ${tScore}, Raw: ${rawScore})</span>
-                    </div>
-                    <div class="graph-bar-container">
-                        <div class="graph-bar" data-width="${barWidth}"></div>
+                        <span>${level}</span>
                     </div>
                     <div class="interpretation"><p>${INTERPRETATIONS[domain].description}</p></div>
                 `;
-                resultItem.addEventListener('click', () => {
+                 resultItem.addEventListener('click', () => {
                     const interp = resultItem.querySelector('.interpretation');
                     interp.style.display = interp.style.display === 'block' ? 'none' : 'block';
                 });
                 sortedResultsContainer.appendChild(resultItem);
-            });
-            document.querySelectorAll('.graph-bar').forEach(bar => { setTimeout(() => { bar.style.width = bar.getAttribute('data-width') + '%'; }, 100); });
+            }
         }
         
         instructionsContainer.style.display = 'block';
