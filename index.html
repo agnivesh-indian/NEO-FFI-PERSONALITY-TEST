@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEO PFI Personality Test</title>
+    <title>NEO FFI Personality Test</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
@@ -168,7 +168,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>NEO PFI Personality Test</h1>
+        <h1>NEO FFI Personality Test</h1>
 
         <div id="instructions">
             <h2>Instructions</h2>
@@ -316,7 +316,15 @@
 
         startButton.addEventListener('click', () => { instructionsContainer.style.display = 'none'; genderSelectionContainer.style.display = 'block'; });
         document.querySelectorAll('.gender-btn').forEach(button => { button.addEventListener('click', (e) => { userGender = e.target.getAttribute('data-gender'); genderSelectionContainer.style.display = 'none'; testContainer.style.display = 'block'; renderQuestion(); }); });
-        backButton.addEventListener('click', () => { if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); } });
+        backButton.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            } else {
+                testContainer.style.display = 'none';
+                genderSelectionContainer.style.display = 'block';
+            }
+        });
         restartButton.addEventListener('click', () => { currentQuestionIndex = 0; userResponses = {}; resultsContainer.style.display = 'none'; instructionsContainer.style.display = 'block'; });
 
         function renderQuestion() {
@@ -335,7 +343,7 @@
                 if (userResponses[question.id] === index) optionElement.classList.add('selected');
                 optionsContainer.appendChild(optionElement);
             });
-            backButton.disabled = currentQuestionIndex === 0;
+            
         }
 
         function selectOption(questionId, optionValue, event) {
@@ -484,6 +492,17 @@
                                 color: 'white',
                                 font: {
                                     size: 14
+                                },
+                                stepSize: 5,
+                                callback: function(value, index, values) {
+                                   switch(value) {
+                                       case 0: return 'Very Low';
+                                       case 35: return 'Low';
+                                       case 45: return 'Average';
+                                       case 60: return 'High';
+                                       case 70: return 'Very High';
+                                       default: return '';
+                                   }
                                 }
                             }
                         }
