@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO PFI Personality Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>NEO PFI Personality Test</h1>
+        <div id="test-container">
+            <div id="question-area">
+                <p id="question-number"></p>
+                <p id="question-text"></p>
+                <div id="options-container">
+                    <!-- Options will be loaded here by JavaScript -->
+                </div>
+            </div>
+            <div id="navigation-buttons">
+                <button id="back-button" disabled>Back</button>
+                <button id="next-button" style="display: none;">Next</button>
+            </div>
+        </div>
+        <div id="results-container" style="display: none;">
+            <h2>Your Results</h2>
+            <div id="raw-scores"></div>
+            <div id="t-scores"></div>
+            <div id="score-graph"></div>
+            <div id="interpretations"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
