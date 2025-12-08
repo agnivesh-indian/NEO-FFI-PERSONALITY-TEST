@@ -79,7 +79,7 @@
 
         #navigation-buttons button, .control-button {
             padding: 12px 25px;
-            margin: 0 10px;
+            margin: 10px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -105,7 +105,8 @@
             margin-top: 20px;
         }
 
-        #results-container h2 {
+        #dominant-trait-summary {
+            font-size: 1.2em;
             text-align: center;
             margin-bottom: 30px;
         }
@@ -119,6 +120,7 @@
             padding: 15px;
             background-color: rgba(255, 255, 255, 0.15);
             border-radius: 8px;
+            cursor: pointer;
         }
         
         .result-item.prominent {
@@ -153,6 +155,7 @@
             border-radius: 5px;
             transition: width 1s ease-in-out;
             width: 0;
+            box-sizing: border-box;
         }
         
         .interpretation {
@@ -168,7 +171,7 @@
 
         <div id="instructions">
             <h2>Instructions</h2>
-            <p>This is a personality test consisting of 60 questions. For each question, please select the option that best describes you. There are no right or wrong answers. Your responses will be kept confidential. Please answer all questions to get an accurate result.</p>
+            <p>This is a personality test consisting of 60 questions. For each question, please select the option that best describes you. There are no right or wrong answers. Please answer all questions to get an accurate result.</p>
             <button id="start-button" class="control-button">Start Test</button>
         </div>
 
@@ -193,6 +196,7 @@
 
         <div id="results-container" style="display: none;">
             <h2>Your Personality Profile</h2>
+            <div id="dominant-trait-summary"></div>
             <div id="sorted-results"></div>
             <button id="restart-button" class="control-button" style="margin-top: 20px;">Take Again</button>
         </div>
@@ -200,99 +204,15 @@
 
     <script>
         const questions = [
-            { id: 1, text: "I am not a worrier" },
-            { id: 2, text: "I like to have a lot of people around me." },
-            { id: 3, text: "I don’t like to waste my time daydreaming." },
-            { id: 4, text: "I try to be courteous to everyone I meet." },
-            { id: 5, text: "I keep my belongings neat and clean." },
-            { id: 6, text: "I often feel inferior to others." },
-            { id: 7, text: "I laugh easily." },
-            { id: 8, text: "Once I find the right way to do something, I stick to it." },
-            { id: 9, text: "I often get into arguments with my family and co-workers." },
-            { id: 10, text: "I’m pretty good about pacing myself so as to get things done on time." },
-            { id: 11, text: "When I’m under a great deal of stress, sometimes I feel like I’m going to pieces." },
-            { id: 12, text: "I don’t consider myself especially ‘light-hearted’." },
-            { id: 13, text: "I am intrigued by the patterns I find in art and nature." },
-            { id: 14, text: "Some people think I’m selfish and egotistical." },
-            { id: 15, text: "I am not a very methodical person." },
-            { id: 16, text: "I rarely feel lonely or blue." },
-            { id: 17, text: "I really enjoy talking to people." },
-            { id: 18, text: "I believe letting students hear controversial speakers can only confuse and mislead them." },
-            { id: 19, text: "I would rather cooperate with others than compete with them." },
-            { id: 20, text: "I try to perform all the tasks assigned to me conscientiously." },
-            { id: 21, text: "I often feel tense and jittery." },
-            { id: 22, text: "I like to be where the action is." },
-            { id: 23, text: "Poetry has little or no effect on me." },
-            { id: 24, text: "I tend to be cynical and skeptical of others’ intentions." },
-            { id: 25, text: "I have a clear set of goals and work toward them in an orderly fashion." },
-            { id: 26, text: "Sometimes I feel completely worthless." },
-            { id: 27, text: "I usually prefer to do things alone." },
-            { id: 28, text: "I often try new and foreign foods." },
-            { id: 29, text: "I believe that most people will take advantage of you if you let them." },
-            { id: 30, text: "I waste a lot of time before settling down to work." },
-            { id: 31, text: "I rarely feel fearful or anxious." },
-            { id: 32, text: "I often feel as if I’m bursting with energy." },
-            { id: 33, text: "I seldom notice the moods or feelings that different environments produce." },
-            { id: 34, text: "Most people I know like me." },
-            { id: 35, text: "I work hard to accomplish my goals." },
-            { id: 36, text: "I often get angry at the way people treat me." },
-            { id: 37, text: "I am a cheerful, high-spirited person." },
-            { id: 38, text: "I believe we should look to our religious authorities for decisions on moral issues." },
-            { id: 39, text: "Some people think of me as cold and calculating." },
-            { id: 40, text: "When I make a commitment, I can always be counted on to follow through." },
-            { id: 41, text: "Too often, when things go wrong, I get discouraged and feel like giving up." },
-            { id: 42, text: "I am not a cheerful optimist." },
-            { id: 43, text: "Sometimes when I am reading poetry or looking at a work of art, I feel a chill or wave of excitement." },
-            { id: 44, text: "I’m hard-headed and tough-minded in my attitudes." },
-            { id: 45, text: "Sometimes I’m not as dependable or reliable as I should be." },
-            { id: 46, text: "I am seldom sad or depressed." },
-            { id: 47, text: "My life is fast-paced." },
-            { id: 48, text: "I have little interest in speculating on the nature of the universe or the human condition." },
-            { id: 49, text: "I generally try to be thoughtful and considerate." },
-            { id: 50, text: "I am a productive person who always gets the job done." },
-            { id: 51, text: "I often feel helpless and want someone else to solve my problems." },
-            { id: 52, text: "I have a lot of intellectual curiosity." },
-            { id: 53, text: "I am a very active person." },
-            { id: 54, text: "If I don’t like people, I let them know it." },
-            { id: 55, text: "I never seem to be able to get organized." },
-            { id: 56, text: "At times I have been so ashamed I just wanted to hide." },
-            { id: 57, text: "I would rather go my own way than be a leader of others." },
-            { id: 58, text: "I often enjoy playing with theories or abstract ideas." },
-            { id: 59, text: "If necessary, I am willing to manipulate people to get what I want." },
-            { id: 60, text: "I strive for excellence in everything I do." }
+            { id: 1, text: "I am not a worrier" }, { id: 2, text: "I like to have a lot of people around me." }, { id: 3, text: "I don’t like to waste my time daydreaming." }, { id: 4, text: "I try to be courteous to everyone I meet." }, { id: 5, text: "I keep my belongings neat and clean." }, { id: 6, text: "I often feel inferior to others." }, { id: 7, text: "I laugh easily." }, { id: 8, text: "Once I find the right way to do something, I stick to it." }, { id: 9, text: "I often get into arguments with my family and co-workers." }, { id: 10, text: "I’m pretty good about pacing myself so as to get things done on time." }, { id: 11, text: "When I’m under a great deal of stress, sometimes I feel like I’m going to pieces." }, { id: 12, text: "I don’t consider myself especially ‘light-hearted’." }, { id: 13, text: "I am intrigued by the patterns I find in art and nature." }, { id: 14, text: "Some people think I’m selfish and egotistical." }, { id: 15, text: "I am not a very methodical person." }, { id: 16, text: "I rarely feel lonely or blue." }, { id: 17, text: "I really enjoy talking to people." }, { id: 18, text: "I believe letting students hear controversial speakers can only confuse and mislead them." }, { id: 19, text: "I would rather cooperate with others than compete with them." }, { id: 20, text: "I try to perform all the tasks assigned to me conscientiously." }, { id: 21, text: "I often feel tense and jittery." }, { id: 22, text: "I like to be where the action is." }, { id: 23, text: "Poetry has little or no effect on me." }, { id: 24, text: "I tend to be cynical and skeptical of others’ intentions." }, { id: 25, text: "I have a clear set of goals and work toward them in an orderly fashion." }, { id: 26, text: "Sometimes I feel completely worthless." }, { id: 27, text: "I usually prefer to do things alone." }, { id: 28, text: "I often try new and foreign foods." }, { id: 29, text: "I believe that most people will take advantage of you if you let them." }, { id: 30, text: "I waste a lot of time before settling down to work." }, { id: 31, text: "I rarely feel fearful or anxious." }, { id: 32, text: "I often feel as if I’m bursting with energy." }, { id: 33, text: "I seldom notice the moods or feelings that different environments produce." }, { id: 34, text: "Most people I know like me." }, { id: 35, text: "I work hard to accomplish my goals." }, { id: 36, text: "I often get angry at the way people treat me." }, { id: 37, text: "I am a cheerful, high-spirited person." }, { id: 38, text: "I believe we should look to our religious authorities for decisions on moral issues." }, { id: 39, text: "Some people think of me as cold and calculating." }, { id: 40, text: "When I make a commitment, I can always be counted on to follow through." }, { id: 41, text: "Too often, when things go wrong, I get discouraged and feel like giving up." }, { id: 42, text: "I am not a cheerful optimist." }, { id: 43, text: "Sometimes when I am reading poetry or looking at a work of art, I feel a chill or wave of excitement." }, { id: 44, text: "I’m hard-headed and tough-minded in my attitudes." }, { id: 45, text: "Sometimes I’m not as dependable or reliable as I should be." }, { id: 46, text: "I am seldom sad or depressed." }, { id: 47, text: "My life is fast-paced." }, { id: 48, text: "I have little interest in speculating on the nature of the universe or the human condition." }, { id: 49, text: "I generally try to be thoughtful and considerate." }, { id: 50, text: "I am a productive person who always gets the job done." }, { id: 51, text: "I often feel helpless and want someone else to solve my problems." }, { id: 52, text: "I have a lot of intellectual curiosity." }, { id: 53, text: "I am a very active person." }, { id: 54, text: "If I don’t like people, I let them know it." }, { id: 55, text: "I never seem to be able to get organized." }, { id: 56, text: "At times I have been so ashamed I just wanted to hide." }, { id: 57, text: "I would rather go my own way than be a leader of others." }, { id: 58, text: "I often enjoy playing with theories or abstract ideas." }, { id: 59, text: "If necessary, I am willing to manipulate people to get what I want." }, { id: 60, text: "I strive for excellence in everything I do." }
         ];
 
         const options = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
 
-        const DOMAIN_ITEMS = {
-            N: [1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56],
-            E: [2, 7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57],
-            O: [3, 8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58],
-            A: [4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59],
-            C: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
-        };
-
-        const REVERSE_SCORED_ITEMS = {
-            N: [1, 16, 31, 46],
-            E: [12, 27, 42, 57],
-            O: [3, 8, 23, 38, 48],
-            A: [9, 14, 24, 39, 44, 54, 59],
-            C: [15, 30, 45, 55],
-        };
-
-        const T_SCORES = {
-            male: { 75: 75, 74: 75, 73: 75, 72: 75, 71: 75, 70: 75, 69: 75, 68: 70, 67: 70, 66: 70, 65: 70, 64: 65, 63: 65, 62: 65, 61: 60, 60: 60, 59: 60, 58: 60, 57: 55, 56: 55, 55: 55, 54: 55, 53: 50, 52: 50, 51: 50, 50: 50, 49: 45, 48: 45, 47: 45, 46: 45, 45: 40, 44: 40, 43: 40, 42: 40, 41: 35, 40: 35, 39: 35, 38: 35, 37: 30, 36: 30, 35: 30, 34: 30, 33: 25, 32: 25, 31: 25, 30: 25, 29: 20, 28: 20, 27: 20, 26: 20, 25: 20, 24: 20, 23: 20, 22: 20, 21: 20, 20: 20, 19: 20, 18: 20, 17: 20, 16: 20, 15: 20, 14: 20, 13: 20, 12: 20, 11: 20, 10: 20, 9: 20, 8: 20, 7: 20, 6: 20, 5: 20, 4: 20, 3: 20, 2: 20, 1: 20, 0: 20 },
-            female: { 75: 75, 74: 75, 73: 75, 72: 70, 71: 70, 70: 70, 69: 70, 68: 65, 67: 65, 66: 65, 65: 65, 64: 60, 63: 60, 62: 60, 61: 55, 60: 55, 59: 55, 58: 55, 57: 50, 56: 50, 55: 50, 54: 50, 53: 45, 52: 45, 51: 45, 50: 45, 49: 40, 48: 40, 47: 40, 46: 40, 45: 35, 44: 35, 43: 35, 42: 35, 41: 30, 40: 30, 39: 30, 38: 30, 37: 25, 36: 25, 35: 25, 34: 25, 33: 20, 32: 20, 31: 20, 30: 20, 29: 20, 28: 20, 27: 20, 26: 20, 25: 20, 24: 20, 23: 20, 22: 20, 21: 20, 20: 20, 19: 20, 18: 20, 17: 20, 16: 20, 15: 20, 14: 20, 13: 20, 12: 20, 11: 20, 10: 20, 9: 20, 8: 20, 7: 20, 6: 20, 5: 20, 4: 20, 3: 20, 2: 20, 1: 20, 0: 20 },
-            combined: { 75: 75, 74: 75, 73: 75, 72: 70, 71: 70, 70: 70, 69: 70, 68: 65, 67: 65, 66: 65, 65: 65, 64: 60, 63: 60, 62: 60, 61: 55, 60: 55, 59: 55, 58: 55, 57: 50, 56: 50, 55: 50, 54: 50, 53: 45, 52: 45, 51: 45, 50: 45, 49: 40, 48: 40, 47: 40, 46: 40, 45: 35, 44: 35, 43: 35, 42: 35, 41: 30, 40: 30, 39: 30, 38: 30, 37: 25, 36: 25, 35: 25, 34: 25, 33: 20, 32: 20, 31: 20, 30: 20, 29: 20, 28: 20, 27: 20, 26: 20, 25: 20, 24: 20, 23: 20, 22: 20, 21: 20, 20: 20, 19: 20, 18: 20, 17: 20, 16: 20, 15: 20, 14: 20, 13: 20, 12: 20, 11: 20, 10: 20, 9: 20, 8: 20, 7: 20, 6: 20, 5: 20, 4: 20, 3: 20, 2: 20, 1: 20, 0: 20 }
-        };
-        
-        const INTERPRETATIONS = {
-            N: { name: "Neuroticism", "description": "Reflects emotional stability. High scorers tend to be anxious and insecure, while low scorers are calm and self-satisfied." },
-            E: { name: "Extraversion", "description": "Indicates sociability. High scorers are outgoing and energetic, while low scorers are solitary and reserved." },
-            O: { name: "Openness", "description": "Refers to imagination and insight. High scorers are creative and curious, while low scorers are conventional and down-to-earth." },
-            A: { name: "Agreeableness", "description": "Measures compassion and cooperation. High scorers are trusting and helpful, while low scorers are competitive and outspoken." },
-            C: { name: "Conscientiousness", "description": "Represents thoughtfulness and impulse control. High scorers are organized and disciplined, while low scorers are easy-going and careless." },
-        };
+        const DOMAIN_ITEMS = { N: [1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56], E: [2, 7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57], O: [3, 8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58], A: [4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59], C: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60] };
+        const REVERSE_SCORED_ITEMS = { N: [1, 16, 31, 46], E: [12, 27, 42, 57], O: [3, 8, 23, 38, 48], A: [9, 14, 24, 39, 44, 54, 59], C: [15, 30, 45, 55] };
+        const T_SCORES = { male: { 0:20,1:20,2:20,3:20,4:20,5:20,6:20,7:20,8:20,9:20,10:20,11:20,12:20,13:20,14:20,15:20,16:20,17:20,18:20,19:20,20:20,21:20,22:20,23:20,24:20,25:20,26:20,27:20,28:20,29:20,30:25,31:25,32:25,33:25,34:30,35:30,36:30,37:30,38:35,39:35,40:35,41:35,42:40,43:40,44:40,45:40,46:45,47:45,48:45,49:45,50:50,51:50,52:50,53:50,54:55,55:55,56:55,57:55,58:60,59:60,60:60,61:60,62:65,63:65,64:65,65:70,66:70,67:70,68:70,69:75,70:75,71:75,72:75,73:75,74:75,75:75 }, female: {0:20,1:20,2:20,3:20,4:20,5:20,6:20,7:20,8:20,9:20,10:20,11:20,12:20,13:20,14:20,15:20,16:20,17:20,18:20,19:20,20:20,21:20,22:20,23:20,24:20,25:20,26:20,27:20,28:20,29:20,30:20,31:20,32:20,33:20,34:25,35:25,36:25,37:25,38:30,39:30,40:30,41:30,42:35,43:35,44:35,45:35,46:40,47:40,48:40,49:40,50:45,51:45,52:45,53:45,54:50,55:50,56:50,57:50,58:55,59:55,60:55,61:55,62:60,63:60,64:60,65:65,66:65,67:65,68:65,69:70,70:70,71:70,72:70,73:75,74:75,75:75}, combined: {0:20,1:20,2:20,3:20,4:20,5:20,6:20,7:20,8:20,9:20,10:20,11:20,12:20,13:20,14:20,15:20,16:20,17:20,18:20,19:20,20:20,21:20,22:20,23:20,24:20,25:20,26:20,27:20,28:20,29:20,30:20,31:20,32:20,33:20,34:25,35:25,36:25,37:25,38:30,39:30,40:30,41:30,42:35,43:35,44:35,45:35,46:40,47:40,48:40,49:40,50:45,51:45,52:45,53:45,54:50,55:50,56:50,57:50,58:55,59:55,60:55,61:55,62:60,63:60,64:60,65:65,66:65,67:65,68:65,69:70,70:70,71:70,72:70,73:75,74:75,75:75} };
+        const INTERPRETATIONS = { N: { name: "Neuroticism", description: "Reflects emotional stability. High scorers tend to be anxious and insecure, while low scorers are calm and self-satisfied." }, E: { name: "Extraversion", description: "Indicates sociability. High scorers are outgoing and energetic, while low scorers are solitary and reserved." }, O: { name: "Openness", description: "Refers to imagination and insight. High scorers are creative and curious, while low scorers are conventional and down-to-earth." }, A: { name: "Agreeableness", description: "Measures compassion and cooperation. High scorers are trusting and helpful, while low scorers are competitive and outspoken." }, C: { name: "Conscientiousness", description: "Represents thoughtfulness and impulse control. High scorers are organized and disciplined, while low scorers are easy-going and careless." } };
 
         let currentQuestionIndex = 0;
         let userGender = "combined";
@@ -309,56 +229,27 @@
         const startButton = document.getElementById('start-button');
         const restartButton = document.getElementById('restart-button');
         const sortedResultsContainer = document.getElementById('sorted-results');
-
-        startButton.addEventListener('click', () => {
-            instructionsContainer.style.display = 'none';
-            genderSelectionContainer.style.display = 'block';
-        });
+        const dominantTraitSummary = document.getElementById('dominant-trait-summary');
         
-        document.querySelectorAll('.gender-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                userGender = e.target.getAttribute('data-gender');
-                genderSelectionContainer.style.display = 'none';
-                testContainer.style.display = 'block';
-                renderQuestion();
-            });
-        });
-
-        backButton.addEventListener('click', () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                renderQuestion();
-            }
-        });
-
-        restartButton.addEventListener('click', () => {
-            currentQuestionIndex = 0;
-            userResponses = {};
-            resultsContainer.style.display = 'none';
-            instructionsContainer.style.display = 'block';
-        });
+        startButton.addEventListener('click', () => { instructionsContainer.style.display = 'none'; genderSelectionContainer.style.display = 'block'; });
+        document.querySelectorAll('.gender-btn').forEach(button => { button.addEventListener('click', (e) => { userGender = e.target.getAttribute('data-gender'); genderSelectionContainer.style.display = 'none'; testContainer.style.display = 'block'; renderQuestion(); }); });
+        backButton.addEventListener('click', () => { if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); } });
+        restartButton.addEventListener('click', () => { currentQuestionIndex = 0; userResponses = {}; resultsContainer.style.display = 'none'; instructionsContainer.style.display = 'block'; });
 
         function renderQuestion() {
-            if (currentQuestionIndex < questions.length) {
-                const question = questions[currentQuestionIndex];
-                questionNumberElement.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
-                questionTextElement.textContent = question.text;
-                optionsContainer.innerHTML = '';
-
-                options.forEach((optionText, index) => {
-                    const optionElement = document.createElement('button');
-                    optionElement.classList.add('option');
-                    optionElement.textContent = optionText;
-                    optionElement.addEventListener('click', () => selectOption(question.id, index + 1));
-                    if (userResponses[question.id] === (index + 1)) {
-                        optionElement.classList.add('selected');
-                    }
-                    optionsContainer.appendChild(optionElement);
-                });
-                backButton.disabled = currentQuestionIndex === 0;
-            } else {
-                showResults();
-            }
+            const question = questions[currentQuestionIndex];
+            questionNumberElement.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            questionTextElement.textContent = question.text;
+            optionsContainer.innerHTML = '';
+            options.forEach((optionText, index) => {
+                const optionElement = document.createElement('button');
+                optionElement.className = 'option';
+                optionElement.textContent = optionText;
+                optionElement.addEventListener('click', () => selectOption(question.id, index + 1));
+                if (userResponses[question.id] === (index + 1)) optionElement.classList.add('selected');
+                optionsContainer.appendChild(optionElement);
+            });
+            backButton.disabled = currentQuestionIndex === 0;
         }
 
         function selectOption(questionId, optionValue) {
@@ -373,58 +264,58 @@
             }, 250);
         }
 
+        function getTScoreLevel(tScore) {
+            if (tScore > 65) return "Very High";
+            if (tScore > 55) return "High";
+            if (tScore > 45) return "Average";
+            if (tScore > 35) return "Low";
+            return "Very Low";
+        }
+
         function calculateScores() {
             const rawScores = { N: 0, E: 0, O: 0, A: 0, C: 0 };
-            
             for (const domain in DOMAIN_ITEMS) {
                 DOMAIN_ITEMS[domain].forEach(itemId => {
                     let response = userResponses[itemId];
-                    if (REVERSE_SCORED_ITEMS[domain].includes(itemId)) {
-                        response = 6 - response;
-                    }
+                    if(response === undefined) return;
+                    if (REVERSE_SCORED_ITEMS[domain].includes(itemId)) response = 6 - response;
                     rawScores[domain] += response;
                 });
             }
-
             const tScores = {};
             const tScoreTable = T_SCORES[userGender];
             for (const domain in rawScores) {
                 tScores[domain] = tScoreTable[rawScores[domain]] || 20;
             }
-
             return { RAW: rawScores, T: tScores };
         }
 
         function showResults() {
             testContainer.style.display = 'none';
             resultsContainer.style.display = 'block';
-            
             const { T: tScores } = calculateScores();
-
             const sortedDomains = Object.keys(tScores).sort((a, b) => tScores[b] - tScores[a]);
             
-            sortedResultsContainer.innerHTML = '';
+            const dominantDomain = sortedDomains[0];
+            dominantTraitSummary.innerHTML = `Your most dominant trait appears to be <strong>${INTERPRETATIONS[dominantDomain].name}</strong>.`;
 
+            sortedResultsContainer.innerHTML = '';
             sortedDomains.forEach((domain, index) => {
                 const score = tScores[domain];
+                const level = getTScoreLevel(score);
                 const resultItem = document.createElement('div');
-                resultItem.className = 'result-item';
-                if(index === 0) resultItem.classList.add('prominent');
-
-                const maxTScore = 80;
+                resultItem.className = 'result-item' + (index === 0 ? ' prominent' : '');
+                const maxTScore = 75; // Adjusted for a better visual scale
                 const barWidth = (score / maxTScore) * 100;
-
                 resultItem.innerHTML = `
                     <div class="result-header">
                         <span>${INTERPRETATIONS[domain].name}</span>
-                        <span>T-Score: ${score}</span>
+                        <span>${level}</span>
                     </div>
                     <div class="graph-bar-container">
                         <div class="graph-bar" data-width="${barWidth}"></div>
                     </div>
-                    <div class="interpretation">
-                        <p>${INTERPRETATIONS[domain].description}</p>
-                    </div>
+                    <div class="interpretation"><p>${INTERPRETATIONS[domain].description}</p></div>
                 `;
                 resultItem.addEventListener('click', () => {
                     const interp = resultItem.querySelector('.interpretation');
@@ -432,18 +323,10 @@
                 });
                 sortedResultsContainer.appendChild(resultItem);
             });
-            
-            // Animate bars
-            document.querySelectorAll('.graph-bar').forEach(bar => {
-                setTimeout(() => {
-                    bar.style.width = bar.getAttribute('data-width') + '%';
-                }, 100);
-            });
+            document.querySelectorAll('.graph-bar').forEach(bar => { setTimeout(() => { bar.style.width = bar.getAttribute('data-width') + '%'; }, 100); });
         }
         
-        // Initial setup
         instructionsContainer.style.display = 'block';
-
     </script>
 </body>
 </html>
