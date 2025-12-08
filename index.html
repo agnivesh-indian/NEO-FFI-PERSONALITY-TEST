@@ -181,6 +181,9 @@
             <p>Your gender is used to provide a more accurate T-score based on normative data. Please select one of the options below.</p>
             <button class="control-button gender-btn" data-gender="male">Male</button>
             <button class="control-button gender-btn" data-gender="female">Female</button>
+            <div style="margin-top: 20px;">
+                <button id="gender-back-button" class="control-button">Back</button>
+            </div>
         </div>
 
         <div id="test-container" style="display: none;">
@@ -309,12 +312,17 @@
         const backButton = document.getElementById('back-button');
         const startButton = document.getElementById('start-button');
         const restartButton = document.getElementById('restart-button');
+        const genderBackButton = document.getElementById('gender-back-button');
         const sortedResultsContainer = document.getElementById('sorted-results');
         const dominantTraitSummary = document.getElementById('dominant-trait-summary');
         const progressBar = document.getElementById('progress-bar');
         const resultsGraphContainer = document.getElementById('results-graph-container');
 
         startButton.addEventListener('click', () => { instructionsContainer.style.display = 'none'; genderSelectionContainer.style.display = 'block'; });
+        genderBackButton.addEventListener('click', () => {
+            genderSelectionContainer.style.display = 'none';
+            instructionsContainer.style.display = 'block';
+        });
         document.querySelectorAll('.gender-btn').forEach(button => { button.addEventListener('click', (e) => { userGender = e.target.getAttribute('data-gender'); genderSelectionContainer.style.display = 'none'; testContainer.style.display = 'block'; renderQuestion(); }); });
         backButton.addEventListener('click', () => {
             if (currentQuestionIndex > 0) {
