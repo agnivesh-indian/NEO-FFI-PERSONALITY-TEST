@@ -355,80 +355,137 @@
             
         }
 
-        function selectOption(questionId, optionValue, event) {
-            userResponses[questionId] = optionValue;
+                function selectOption(questionId, optionValue, event) {
 
-            const selectedButton = event.target;
-            selectedButton.classList.add('selected');
+                    userResponses[questionId] = optionValue;
 
-            setTimeout(() => {
-                if (currentQuestionIndex < questions.length - 1) {
-                    currentQuestionIndex++;
-                    renderQuestion();
-                } else {
-                    showResults();
-                }
-            }, 500);
-        }
-
-        function getTScoreLevel(tScore) {
-            if (tScore >= 70) return "Very High";
-            if (tScore >= 60) return "High";
-            if (tScore >= 45) return "Average";
-            if (tScore >= 35) return "Low";
-            return "Very Low";
-        }
         
-                        function getTScore(rawScore, domainScores) {
-                            if (!domainScores || !domainScores.raw || !domainScores.t) return 0;
-                
-                            // The raw scores are sorted in descending order
-                            for (let i = 0; i < domainScores.raw.length; i++) {
-                                if (rawScore >= domainScores.raw[i]) {
-                                    return domainScores.t[i];
-                                }
-                            }
-                            
-                            // If the raw score is lower than any in the table, return the t-score for the lowest raw score.
-                            if (domainScores.t.length > 0) {
-                                return domainScores.t[domainScores.t.length - 1];
-                            }
-                
-                            return 0;
-                        }            function calculateScores() {
-                const rawScores = { N: 0, E: 0, O: 0, A: 0, C: 0 };
-                console.log("Initial raw scores:", rawScores);
-                console.log("User responses:", userResponses);
 
-                for (const domain in DOMAIN_ITEMS) {
-                    DOMAIN_ITEMS[domain].forEach(itemId => {
-                        let response = userResponses[itemId];
-                        if(response === undefined) {
-                            console.log(`No response for question ${itemId} in domain ${domain}`);
-                            return;
-                        }
-                        if (REVERSE_SCORED_ITEMS[domain].includes(itemId)) {
-                            console.log(`Reversing score for question ${itemId} in domain ${domain}`);
-                            response = 4 - response;
-                        }
-                        rawScores[domain] += response;
+                    // Disable all option buttons to prevent multiple clicks
+
+                    const optionButtons = document.querySelectorAll('.option');
+
+                    optionButtons.forEach(button => {
+
+                        button.disabled = true;
+
                     });
-                    console.log(`Raw score for domain ${domain}:`, rawScores[domain]);
+
+        
+
+                    // Add 'selected' class for visual feedback
+
+                    event.target.classList.add('selected');
+
+        
+
+                    // Move to the next question after a short delay
+
+                    setTimeout(() => {
+
+                        if (currentQuestionIndex < questions.length - 1) {
+
+                            currentQuestionIndex++;
+
+                            renderQuestion();
+
+                        } else {
+
+                            showResults();
+
+                        }
+
+                    }, 200); // Reduced delay
+
                 }
 
-                const tScores = {};
-                const tScoreTables = T_SCORES_MAP[userGender];
-                console.log("T-score tables for gender:", userGender, tScoreTables);
+        
 
-                for (const domain in rawScores) {
-                    console.log(`Calculating T-score for domain ${domain} with raw score ${rawScores[domain]}`);
-                    tScores[domain] = getTScore(rawScores[domain], tScoreTables[domain]);
-                    console.log(`T-score for domain ${domain}:`, tScores[domain]);
+                function getTScoreLevel(tScore) {
+
+                    if (tScore >= 70) return "Very High";
+
+                    if (tScore >= 60) return "High";
+
+                    if (tScore >= 45) return "Average";
+
+                    if (tScore >= 35) return "Low";
+
+                    return "Very Low";
+
                 }
+
                 
-                console.log("Final T-scores:", tScores);
-                return { RAW: rawScores, T: tScores };
-            }
+
+                function getTScore(rawScore, domainScores) {
+
+                    if (!domainScores || !domainScores.raw || !domainScores.t) return 0;
+
+        
+
+                    // The raw scores are sorted in descending order
+
+                    for (let i = 0; i < domainScores.raw.length; i++) {
+
+                        if (rawScore >= domainScores.raw[i]) {
+
+                            return domainScores.t[i];
+
+                        }
+
+                    }
+
+                    
+
+                    // If the raw score is lower than any in the table, return the t-score for the lowest raw score.
+
+                    if (domainScores.t.length > 0) {
+
+                        return domainScores.t[domainScores.t.length - 1];
+
+                    }
+
+        
+
+                    return 0;
+
+                }
+
+        
+
+                function calculateScores() {
+
+                    const rawScores = { N: 0, E: 0, O: 0, A: 0, C: 0 };
+
+                    for (const domain in DOMAIN_ITEMS) {
+
+                        DOMAIN_ITEMS[domain].forEach(itemId => {
+
+                            let response = userResponses[itemId];
+
+                            if(response === undefined) return;
+
+                            if (REVERSE_SCORED_ITEMS[domain].includes(itemId)) response = 4 - response;
+
+                            rawScores[domain] += response;
+
+                        });
+
+                    }
+
+                    const tScores = {};
+
+                    const tScoreTables = T_SCORES_MAP[userGender];
+
+                    for (const domain in rawScores) {
+
+                        tScores[domain] = getTScore(rawScores[domain], tScoreTables[domain]);
+
+                    }
+
+                    return { RAW: rawScores, T: tScores };
+
+                }
 
         function showResults() {
             testContainer.style.display = 'none';
