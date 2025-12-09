@@ -395,23 +395,40 @@
                             }
                 
                             return 0;
-                        }        function calculateScores() {
-            const rawScores = { N: 0, E: 0, O: 0, A: 0, C: 0 };
-            for (const domain in DOMAIN_ITEMS) {
-                DOMAIN_ITEMS[domain].forEach(itemId => {
-                    let response = userResponses[itemId];
-                    if(response === undefined) return;
-                    if (REVERSE_SCORED_ITEMS[domain].includes(itemId)) response = 4 - response;
-                    rawScores[domain] += response;
-                });
+                        }            function calculateScores() {
+                const rawScores = { N: 0, E: 0, O: 0, A: 0, C: 0 };
+                console.log("Initial raw scores:", rawScores);
+                console.log("User responses:", userResponses);
+
+                for (const domain in DOMAIN_ITEMS) {
+                    DOMAIN_ITEMS[domain].forEach(itemId => {
+                        let response = userResponses[itemId];
+                        if(response === undefined) {
+                            console.log(`No response for question ${itemId} in domain ${domain}`);
+                            return;
+                        }
+                        if (REVERSE_SCORED_ITEMS[domain].includes(itemId)) {
+                            console.log(`Reversing score for question ${itemId} in domain ${domain}`);
+                            response = 4 - response;
+                        }
+                        rawScores[domain] += response;
+                    });
+                    console.log(`Raw score for domain ${domain}:`, rawScores[domain]);
+                }
+
+                const tScores = {};
+                const tScoreTables = T_SCORES_MAP[userGender];
+                console.log("T-score tables for gender:", userGender, tScoreTables);
+
+                for (const domain in rawScores) {
+                    console.log(`Calculating T-score for domain ${domain} with raw score ${rawScores[domain]}`);
+                    tScores[domain] = getTScore(rawScores[domain], tScoreTables[domain]);
+                    console.log(`T-score for domain ${domain}:`, tScores[domain]);
+                }
+                
+                console.log("Final T-scores:", tScores);
+                return { RAW: rawScores, T: tScores };
             }
-            const tScores = {};
-            const tScoreTables = T_SCORES_MAP[userGender];
-            for (const domain in rawScores) {
-                tScores[domain] = getTScore(rawScores[domain], tScoreTables[domain]);
-            }
-            return { RAW: rawScores, T: tScores };
-        }
 
         function showResults() {
             testContainer.style.display = 'none';
