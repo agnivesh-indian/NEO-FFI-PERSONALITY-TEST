@@ -379,18 +379,23 @@
             return "Very Low";
         }
         
-                function getTScore(rawScore, domainScores) {
-                    if (!domainScores || !domainScores.raw || !domainScores.t) return 0;
-        
-                    // The raw scores are sorted in descending order
-                    for (let i = 0; i < domainScores.raw.length; i++) {
-                        if (rawScore >= domainScores.raw[i]) {
-                            return domainScores.t[i];
-                        }
-                    }
-                    return 0;
-                }
-        function calculateScores() {
+                        function getTScore(rawScore, domainScores) {
+                            if (!domainScores || !domainScores.raw || !domainScores.t) return 0;
+                
+                            // The raw scores are sorted in descending order
+                            for (let i = 0; i < domainScores.raw.length; i++) {
+                                if (rawScore >= domainScores.raw[i]) {
+                                    return domainScores.t[i];
+                                }
+                            }
+                            
+                            // If the raw score is lower than any in the table, return the t-score for the lowest raw score.
+                            if (domainScores.t.length > 0) {
+                                return domainScores.t[domainScores.t.length - 1];
+                            }
+                
+                            return 0;
+                        }        function calculateScores() {
             const rawScores = { N: 0, E: 0, O: 0, A: 0, C: 0 };
             for (const domain in DOMAIN_ITEMS) {
                 DOMAIN_ITEMS[domain].forEach(itemId => {
