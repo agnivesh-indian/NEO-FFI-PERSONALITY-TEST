@@ -280,23 +280,61 @@
 
         const DOMAIN_ITEMS = { N: [1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56], E: [2, 7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57], O: [3, 8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58], A: [4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59], C: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60] };
         const REVERSE_SCORED_ITEMS = { N: [1, 16, 31, 46], E: [12, 27, 42, 57], O: [3, 8, 23, 38, 48], A: [9, 14, 24, 29, 39, 44, 54, 59], C: [15, 30, 45, 55] };
-        const T_SCORES = {
-            male: {
-                N: [[35, 73], [30, 70], [25, 67], [20, 60], [15, 47], [10, 42], [5, 35], [0, 26]],
-                E: [[35, 71], [30, 66], [25, 62], [20, 47], [15, 40], [10, 38], [5, 35], [0, 25]],
-                O: [[45, 75], [40, 66], [35, 64], [30, 55], [25, 47], [20, 41], [15, 35], [10, 31], [5, 26], [0, 25]],
-                A: [[35, 65], [30, 55], [25, 50], [20, 39], [15, 29], [0, 25]],
-                C: [[45, 70], [40, 63], [35, 57], [30, 43], [25, 37], [20, 26], [15, 27], [0, 25]]
-            },
-            female: {
-                N: [[40, 70], [35, 64], [30, 55], [25, 47], [20, 45], [15, 39], [5, 30], [0, 26]],
-                E: [[40, 69], [35, 65], [30, 61], [25, 56], [20, 47], [10, 40], [5, 35], [0, 25]],
-                O: [[45, 75], [40, 72], [35, 64], [30, 61], [25, 49], [20, 36], [15, 35], [10, 31], [5, 26], [0, 25]],
-                A: [[35, 61], [30, 44], [25, 40], [20, 33], [15, 29], [0, 25]],
-                C: [[45, 70], [40, 64], [35, 54], [30, 41], [25, 35], [20, 30], [0, 20]]
-            }
-        };
+        let T_SCORES = {};
         const INTERPRETATIONS = { N: { name: "Neuroticism", description: "Reflects emotional stability. High scorers tend to be anxious and insecure, while low scorers are calm and self-satisfied." }, E: { name: "Extraversion", description: "Indicates sociability. High scorers are outgoing and energetic, while low scorers are solitary and reserved." }, O: { name: "Openness", description: "Refers to imagination and insight. High scorers are creative and curious, while low scorers are conventional and down-to-earth." }, A: { name: "Agreeableness", description: "Measures compassion and cooperation. High scorers are trusting and helpful, while low scorers are competitive and outspoken." }, C: { name: "Conscientiousness", description: "Represents thoughtfulness and impulse control. High scorers are organized and disciplined, while low scorers are easy-going and careless." } };
+
+        (async function() {
+            const startButton = document.getElementById('start-button');
+            startButton.disabled = true;
+            const response = await fetch('new_t_scores.json');
+            const newTScoresData = await response.json();
+            const transformed = {
+                male: { N: [], E: [], O: [], A: [], C: [] },
+                female: { N: [], E: [], O: [], A: [], C: [] }
+            };
+
+            const processGender = (genderKey, targetGenderData) => {
+                const genderNorms = newTScoresData.NEO_FFI[genderKey.charAt(0).toUpperCase() + genderKey.slice(1)].T_to_Raw;
+                for (const entry of genderNorms) {
+                    const tScoreText = entry['T'];
+                    if (tScoreText === null || tScoreText === undefined) continue;
+
+                    let tScore;
+                    if (typeof tScoreText === 'string') {
+                         if (tScoreText.includes('≤')) {
+                            tScore = parseInt(tScoreText.replace('≤', ''));
+                        } else if (tScoreText.includes('≥')) {
+                            tScore = parseInt(tScoreText.replace('≥', ''));
+                        } else {
+                            tScore = parseInt(tScoreText);
+                        }
+                    } else {
+                        tScore = tScoreText;
+                    }
+
+                    if (isNaN(tScore)) continue;
+
+                    for (const domain of ['N', 'E', 'O', 'A', 'C']) {
+                        const rawScore = entry[domain];
+                        if (rawScore !== null && rawScore !== undefined) {
+                            targetGenderData[domain].push([parseInt(rawScore), tScore]);
+                        }
+                    }
+                }
+            };
+
+            processGender('Male', transformed.male);
+            processGender('Female', transformed.female);
+
+            // Sort the arrays by raw score in descending order
+            for (const gender in transformed) {
+                for (const domain in transformed[gender]) {
+                    transformed[gender][domain].sort((a, b) => b[0] - a[0]);
+                }
+            }
+            T_SCORES = transformed;
+            startButton.disabled = false;
+        })();
 
         let currentQuestionIndex = 0;
         let userGender = "male";

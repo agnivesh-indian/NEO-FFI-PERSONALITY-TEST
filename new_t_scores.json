@@ -1,0 +1,827 @@
+{
+  "NEO_FFI": {
+    "Levels": {
+      "Very High": ">=75 - 66",
+      "High": "65 - 56",
+      "Average": "55 - 45",
+      "Low": "44 - 35",
+      "Very Low": "34 - <=25"
+    },
+    "Male": {
+      "T_to_Raw": [
+        {
+          "T": "\u226575",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": 45,
+          "C": null
+        },
+        {
+          "T": "74",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "73",
+          "N": 35,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "72",
+          "N": null,
+          "E": 40,
+          "O": 40,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "71",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "70",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "69",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "68",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 45
+        },
+        {
+          "T": "67",
+          "N": 30,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "66",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": 40,
+          "C": null
+        },
+        {
+          "T": "65",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "64",
+          "N": null,
+          "E": null,
+          "O": 35,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "63",
+          "N": null,
+          "E": 35,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "62",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "61",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "60",
+          "N": 25,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 40
+        },
+        {
+          "T": "59",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "58",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "57",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "56",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": 35,
+          "C": null
+        },
+        {
+          "T": "55",
+          "N": null,
+          "E": 30,
+          "O": 30,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "54",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "53",
+          "N": 20,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "52",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 35
+        },
+        {
+          "T": "51",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "50",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "49",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "48",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "47",
+          "N": 15,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "46",
+          "N": null,
+          "E": 25,
+          "O": 25,
+          "A": 30,
+          "C": null
+        },
+        {
+          "T": "45",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "44",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "43",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 30
+        },
+        {
+          "T": "42",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "41",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "40",
+          "N": 10,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "39",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "38",
+          "N": null,
+          "E": 20,
+          "O": 20,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "37",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "36",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": 25,
+          "C": null
+        },
+        {
+          "T": "35",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 25
+        },
+        {
+          "T": "34",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "33",
+          "N": 5,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "32",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "31",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "30",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "29",
+          "N": null,
+          "E": 15,
+          "O": 15,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "28",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "27",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "26",
+          "N": 0,
+          "E": null,
+          "O": null,
+          "A": 20,
+          "C": 20
+        },
+        {
+          "T": "\u226425",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        }
+      ]
+    },
+    "Female": {
+      "T_to_Raw": [
+        {
+          "T": "\u226575",
+          "N": 40,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "74",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": 45,
+          "C": null
+        },
+        {
+          "T": "73",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "72",
+          "N": null,
+          "E": null,
+          "O": 40,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "71",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "70",
+          "N": null,
+          "E": 40,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "69",
+          "N": 35,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "68",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "67",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 45
+        },
+        {
+          "T": "66",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "65",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "64",
+          "N": null,
+          "E": null,
+          "O": 35,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "63",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": 40,
+          "C": null
+        },
+        {
+          "T": "62",
+          "N": 30,
+          "E": 35,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "61",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "60",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "59",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 40
+        },
+        {
+          "T": "58",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "57",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "56",
+          "N": 25,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "55",
+          "N": null,
+          "E": null,
+          "O": 30,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "54",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "53",
+          "N": null,
+          "E": 30,
+          "O": null,
+          "A": 35,
+          "C": null
+        },
+        {
+          "T": "52",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "51",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "50",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 35
+        },
+        {
+          "T": "49",
+          "N": 20,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "48",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "47",
+          "N": null,
+          "E": null,
+          "O": 25,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "46",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "45",
+          "N": null,
+          "E": 25,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "44",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "43",
+          "N": 15,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "42",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": 30,
+          "C": null
+        },
+        {
+          "T": "41",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 30
+        },
+        {
+          "T": "40",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "39",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "38",
+          "N": null,
+          "E": null,
+          "O": 20,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "37",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "36",
+          "N": 10,
+          "E": 20,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "35",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "34",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "33",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 25
+        },
+        {
+          "T": "32",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": 25,
+          "C": null
+        },
+        {
+          "T": "31",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "30",
+          "N": 5,
+          "E": null,
+          "O": 15,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "29",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "28",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "27",
+          "N": null,
+          "E": 15,
+          "O": null,
+          "A": null,
+          "C": null
+        },
+        {
+          "T": "\u226425",
+          "N": null,
+          "E": null,
+          "O": null,
+          "A": null,
+          "C": 20
+        }
+      ]
+    }
+  }
+}
